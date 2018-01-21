@@ -1,0 +1,11 @@
+#!/bin/bash
+
+VOLUME_PATH=~/.config/i3/i3-volume
+STATUS_CMD=i3blocks
+
+case "$1" in
+    raise) $VOLUME_PATH/volume -i 5 -n -t $STATUS_CMD -u RTMIN+1 ;;
+    lower) $VOLUME_PATH/volume -d 5 -n -t $STATUS_CMD -u RTMIN+1 ;;
+    mute)  $VOLUME_PATH/volume -m -n -t $STATUS_CMD -u RTMIN+1 ;;
+esac
+

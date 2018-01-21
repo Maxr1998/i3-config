@@ -1,0 +1,19 @@
+#!/bin/sh
+pgrep -x "i3" > /dev/null || exit 0
+
+echo "Locking screen"
+
+# Display options
+xset dpms force off
+xset dpms 0 0 10
+
+# Locking
+i3lock -n --indicator --indpos="x+w/2:y+h*703/1000" -i "$HOME/Bilder/Wallpapers/Lockscreen.png" --textcolor="ffffff00" --separatorcolor="ffffff00" \
+    --insidecolor="00000000" --ringcolor="ffffffa0" --linecolor="ffffff00" --keyhlcolor="fffffffa" \
+    --ringvercolor="ffc107ff" --insidevercolor="ffc10748" --ringwrongcolor="d32f2fff" --insidewrongcolor="d32d2f48"
+
+echo "Screen unlocked"
+
+# Display options
+xset dpms 0 0 900
+# EOF

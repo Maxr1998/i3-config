@@ -1,0 +1,2 @@
+#!/bin/bash
+sensors | awk '/Package id/{ print $4 }' | tr -d +

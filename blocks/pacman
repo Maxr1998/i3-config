@@ -1,0 +1,8 @@
+#!/bin/bash
+case "$BLOCK_BUTTON" in
+    1) i3-sensible-terminal -- yaourt -Syua
+esac
+
+pacman -Qu | grep -v "Ignoriert" | wc -l | awk '{
+    print "<span foreground=\"#"(int($0) > 0 ? "ffff00" : "ffffff")"\">Upd: "$0"</span>"
+}'

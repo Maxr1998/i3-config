@@ -139,6 +139,7 @@ client.background #000000
 bar {
     position top
     status_command SCRIPT_DIR=~/.config/i3/blocks i3blocks -vv
+    tray_output primary
 
     colors {
         background #212121
@@ -171,6 +172,7 @@ exec_always --no-startup-id xinput set-prop "DLL075B:01 06CB:76AF Touchpad" "lib
 exec_always --no-startup-id xinput set-prop "DLL075B:01 06CB:76AF Touchpad" "libinput Natural Scrolling Enabled" 1
 exec_always --no-startup-id xinput set-prop "DLL075B:01 06CB:76AF Touchpad" "libinput Left Handed Enabled" 1
 exec_always --no-startup-id xinput set-prop "pointer:MX Anywhere 2" "libinput Left Handed Enabled" 1
+exec_always --no-startup-id xinput set-prop "pointer:Logitech MX Anywhere 2" "libinput Left Handed Enabled" 1
 
 # Keyboard layout setup
 exec_always --no-startup-id "setxkbmap -layout de,us -variant nodeadkeys,euro -option 'grp:win_space_toggle'"

@@ -29,7 +29,7 @@ command=$SCRIPT_DIR/cpu_temperature
 interval=10
 
 [battery2]
-command=upower --enumerate | grep BAT && $SCRIPT_DIR/battery2/battery2 || echo
+command=upower --enumerate | grep BAT > /dev/null && $SCRIPT_DIR/battery2/battery2 || echo
 markup=pango
 
 [datetime]

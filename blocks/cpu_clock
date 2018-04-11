@@ -1,0 +1,9 @@
+#!/bin/bash
+cat /proc/cpuinfo | grep MHz | awk '
+BEGIN { a = 0 }
+{
+    if ($4 > a) {
+        a = $4
+    }
+} 
+END { printf "%0.2f GHz\n", a/1000 }'

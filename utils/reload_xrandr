@@ -1,2 +1,2 @@
 #!/bin/sh
-xrandr | grep '^DP-1 connected' && xrandr --output DP-1 --auto --above eDP-1 || xrandr --auto
+xrandr | grep '^DP-1 connected' && xrandr --output DP-1 --auto --left-of eDP-1 || xrandr --auto

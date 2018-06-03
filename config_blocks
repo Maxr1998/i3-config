@@ -24,7 +24,7 @@ interval=10
 command=$SCRIPT_DIR/cpu_clock
 interval=10
 
-[cpu_usage]
+[cpu_temp]
 command=$SCRIPT_DIR/cpu_temperature
 interval=10
 

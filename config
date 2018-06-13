@@ -178,7 +178,8 @@ exec_always --no-startup-id xinput set-prop "pointer:MX Anywhere 2" "libinput Le
 exec_always --no-startup-id xinput set-prop "pointer:Logitech MX Anywhere 2" "libinput Left Handed Enabled" 1
 
 # Keyboard layout setup
-exec_always --no-startup-id "setxkbmap -layout de,us -variant nodeadkeys,euro -option 'grp:win_space_toggle'"
+#exec_always --no-startup-id "setxkbmap -layout de,us -variant nodeadkeys,euro -option 'grp:win_space_toggle'"
+exec_always --no-startup-id "setxkbmap -layout de -variant nodeadkeys -option 'grp:win_space_toggle'"
 
 # Media keys
 set $audio ~/.config/i3/utils/audio

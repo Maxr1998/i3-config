@@ -98,6 +98,9 @@ bindsym $mod+Shift+0 move container to workspace 10
 # Move workspace to next monitor
 bindsym $mod+Shift+h move workspace to output left
 
+# Rename current workspace
+bindsym $mod+Control+r exec i3-input -F 'rename workspace to "%s"' -P 'Neue Bezeichnung: '
+
 # Reload the configuration file
 bindsym $mod+Shift+c reload
 # Restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
@@ -154,10 +157,15 @@ bar {
    }
 }
 
+# Setup workspaces
+exec i3-msg workspace 10, move workspace to output DP2
+exec i3-msg workspace 1
+
+### KEY BINDINGS AND CONTROLS
+
 # Power key/lock setup
 bindsym XF86PowerOff exec --no-startup-id ~/.config/i3/utils/lock
 bindsym Mod4+l exec --no-startup-id ~/.config/i3/utils/lock
-
 
 # Multi-monitor-setup
 exec --no-startup-id ~/.config/i3/reload_xrandr
@@ -170,7 +178,7 @@ exec --no-startup-id nm-applet
 # Set wallpaper
 exec --no-startup-id ~/.fehbg
 
-# Touchpad setup
+# Touchpad and mouse setup
 exec_always --no-startup-id xinput set-prop "DLL075B:01 06CB:76AF Touchpad" "libinput Tapping Enabled" 1
 exec_always --no-startup-id xinput set-prop "DLL075B:01 06CB:76AF Touchpad" "libinput Natural Scrolling Enabled" 1
 exec_always --no-startup-id xinput set-prop "DLL075B:01 06CB:76AF Touchpad" "libinput Left Handed Enabled" 1

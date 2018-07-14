@@ -1,6 +1,6 @@
 #!/bin/bash
 case "$BLOCK_BUTTON" in
-    1) i3-sensible-terminal -- yaourt -Syua
+    1) i3-sensible-terminal -- yay
 esac
 
 pacman -Qu | grep -v "Ignoriert" | wc -l | awk '{

@@ -2,11 +2,16 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
+### VARIABLES
+
 set $mod Mod1
+set $mode_rename "Fenster anpassen"
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
 font pango:Roboto 10
+
+### DEFAULT i3 KEYBINDINGS
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -107,10 +112,10 @@ bindsym $mod+Shift+c reload
 # Restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # Exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'i3-Sitzung beenden?' -b 'Neu starten' 'reboot' -b 'Ausschalten' 'poweroff' -b 'Ausloggen' 'i3-msg exit'"
 
 # Resize window (you can also use the mouse for that)
-mode "resize" {
+mode $mode_rename {
         # These bindings trigger as soon as you enter the resize mode
 
         # Pressing left will shrink the window’s width.
@@ -133,7 +138,7 @@ mode "resize" {
         bindsym Escape mode "default"
 }
 
-bindsym $mod+r mode "resize"
+bindsym $mod+r mode $mode_rename
 
 # Colors setup
 client.focused #333333 #333333 #ffffff
@@ -158,11 +163,7 @@ bar {
    }
 }
 
-# Setup workspaces
-exec i3-msg workspace 10, move workspace to output DP2
-exec i3-msg workspace 1
-
-### KEY BINDINGS AND CONTROLS
+### SYSTEM KEYBINDINGS/ENVIRONMENT SETUP
 
 # Power key/lock setup
 bindsym XF86PowerOff exec --no-startup-id ~/.config/i3/utils/lock
@@ -199,3 +200,9 @@ bindsym XF86AudioMute exec --no-startup-id $audio mute
 # Brightness
 bindsym XF86MonBrightnessUp exec --no-startup-id notify-send -i "weather-clear" -h string:synchronous:volume -h int:value:"$(brightnessctl set +5% | awk '/\(/{print $4}' | tr -d '(' | tr -d '%)')" "Helligkeit"
 bindsym XF86MonBrightnessDown exec --no-startup-id notify-send -i "weather-clear" -h string:synchronous:volume -h int:value:"$(brightnessctl set 5%- | awk '/\(/{print $4}' | tr -d '(' | tr -d '%)')" "Helligkeit"
+
+# Setup workspace output
+workspace 10 output DP2
+
+# Start with ws 1 focused, make sure ws 10 is on DP-2
+exec --no-startup-id i3-msg workspace 10, workspace 1

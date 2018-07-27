@@ -206,3 +206,5 @@ workspace 10 output DP2
 
 # Start with ws 1 focused, make sure ws 10 is on DP-2
 exec --no-startup-id i3-msg workspace 10, workspace 1
+
+for_window [class="^jetbrains-studio"][window_type=dialog] focus

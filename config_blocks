@@ -1,6 +1,11 @@
 interval=5
 color=#ffffff
 
+[spotify]
+command=$SCRIPT_DIR/spotify
+markup=pango
+interval=10
+
 [wifi]
 command=$SCRIPT_DIR/wifi
 markup=pango

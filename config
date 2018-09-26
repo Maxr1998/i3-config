@@ -184,7 +184,7 @@ exec --no-startup-id ~/.fehbg
 exec_always --no-startup-id xinput set-prop "DLL075B:01 06CB:76AF Touchpad" "libinput Tapping Enabled" 1
 exec_always --no-startup-id xinput set-prop "DLL075B:01 06CB:76AF Touchpad" "libinput Natural Scrolling Enabled" 1
 exec_always --no-startup-id xinput set-prop "DLL075B:01 06CB:76AF Touchpad" "libinput Left Handed Enabled" 1
-exec_always --no-startup-id xinput set-prop "pointer:MX Anywhere 2" "libinput Left Handed Enabled" 1
+exec_always --no-startup-id xinput set-prop "pointer:MX Anywhere 2 Mouse" "libinput Left Handed Enabled" 1
 exec_always --no-startup-id xinput set-prop "pointer:Logitech MX Anywhere 2" "libinput Left Handed Enabled" 1
 
 # Keyboard layout setup

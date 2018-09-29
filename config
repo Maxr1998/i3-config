@@ -138,7 +138,7 @@ mode $mode_resize {
         bindsym Escape mode "default"
 }
 
-bindsym $mod+r mode $mode_rename
+bindsym $mod+r mode $mode_resize
 
 # Colors setup
 client.focused #333333 #333333 #ffffff

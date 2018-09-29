@@ -1,0 +1,47 @@
+#!/usr/bin/python3
+import time
+import socket
+import pychromecast as cast
+
+# Setup server
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.bind(("localhost", 18925))
+server.listen(3)
+
+# Setup Chromecast connection
+chromecasts = cast.get_chromecasts()
+
+device = next(cc for cc in chromecasts if cc.device.friendly_name == "Mei")
+device.wait()
+print("Chromecasts ready")
+
+# Main loop
+while True:
+    try:
+        (client, address) = server.accept()
+        if device.media_controller.is_active:
+            sent = client.recv(16).decode()
+            if sent == "play":
+                device.media_controller.play()
+            elif sent == "pause":
+                device.media_controller.pause()
+            elif sent == "volup":
+                device.volume_up()
+            elif sent == "voldown":
+                device.volume_down()
+            else:
+                print("Invalid argument")
+
+            if device.media_controller.is_playing:
+                client.send(b"playing")
+            else:
+                client.send(b"paused")
+        else:
+            client.send(b"idle")
+        client.close()
+    except (SystemExit, KeyboardInterrupt):
+        print("Quitting..")
+        break
+
+# Clean-up
+server.close()

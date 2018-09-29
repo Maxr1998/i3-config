@@ -10,8 +10,8 @@ depends=("python-pychromecast-git")
 source=("chromecastd"
         "chromecastd@.service"
         "i3lock@.service")
-md5sums=("60eab21e50edc98e3514465fbab94712"
-         "e2e56a308b771b6997f5c7ef837f0933"
+md5sums=("1c68c6739330e3836eb0ab0bbe4aaf2a"
+         "dd8657d2c0281fa82a78e5fb35781e43"
          "afb04b0283eddb8b2400d53c6f493395")
 
 package() {

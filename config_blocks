@@ -3,7 +3,10 @@ color=#ffffff
 
 [spotify]
 command=$SCRIPT_DIR/spotify
-markup=pango
+interval=10
+
+[chromecast]
+command=$SCRIPT_DIR/chromecast
 interval=10
 
 [wifi]
@@ -20,6 +23,9 @@ command=$SCRIPT_DIR/volume-pulseaudio
 interval=once
 signal=1
 
+[separator]
+full_text=|
+
 [cpu_usage]
 command=$SCRIPT_DIR/cpu_usage/cpu_usage
 label=CPU
@@ -33,6 +39,9 @@ interval=10
 command=$SCRIPT_DIR/cpu_temperature
 interval=10
 
+[separator]
+full_text=|
+
 [battery2]
 command=upower --enumerate | grep BAT > /dev/null && $SCRIPT_DIR/battery2/battery2 || echo
 markup=pango
@@ -42,7 +51,6 @@ command=date "+%d.%m.%Y, %T"
 
 [pacman]
 command=$SCRIPT_DIR/pacman
-markup=pango
 interval=60
 signal=12
 

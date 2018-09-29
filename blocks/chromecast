@@ -1,0 +1,18 @@
+#!/bin/bash
+case "$BLOCK_BUTTON" in
+    1) CCMD="toggle" ;;
+    4) CCMD="volup" ;;
+    5) CCMD="voldown" ;;
+    *) CCMD="state" ;;
+esac
+
+CSTATUS=$(echo -n "$CCMD" | nc -U /var/run/chromecastd/daemon.sock)
+
+if [ ! -z "$CSTATUS" -a "$CSTATUS" != "idle" ]; then
+    if [ "$CSTATUS" = "playing" ]; then
+        echo "⏸"
+    elif [ "$CSTATUS" = "paused" ]; then
+        echo "▶"
+    fi
+fi
+

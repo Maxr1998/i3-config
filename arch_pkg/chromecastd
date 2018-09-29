@@ -1,27 +1,44 @@
 #!/usr/bin/python3
+import os
 import time
 import socket
 import pychromecast as cast
 
-# Setup server
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind(("localhost", 18925))
-server.listen(3)
-
 # Setup Chromecast connection
 chromecasts = cast.get_chromecasts()
-
 device = next(cc for cc in chromecasts if cc.device.friendly_name == "Mei")
 device.wait()
 print("Chromecasts ready")
 
+# Setup UNIX socket
+socket_path = "/var/run/chromecastd/daemon.sock"
+
+def cleanup_socket():
+    try:
+        os.unlink(socket_path)
+    except FileNotFoundError:
+        pass
+
+cleanup_socket()
+server = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+server.bind(socket_path)
+server.listen(1)
+
 # Main loop
+client = None
 while True:
     try:
         (client, address) = server.accept()
+        sent = client.recv(16).decode()
         if device.media_controller.is_active:
-            sent = client.recv(16).decode()
-            if sent == "play":
+            if sent == "state":
+                pass
+            elif sent == "toggle":
+                if device.media_controller.is_playing:
+                    device.media_controller.pause()
+                else:
+                    device.media_controller.play()
+            elif sent == "play":
                 device.media_controller.play()
             elif sent == "pause":
                 device.media_controller.pause()
@@ -32,6 +49,7 @@ while True:
             else:
                 print("Invalid argument")
 
+            device.wait()
             if device.media_controller.is_playing:
                 client.send(b"playing")
             else:
@@ -39,9 +57,13 @@ while True:
         else:
             client.send(b"idle")
         client.close()
-    except (SystemExit, KeyboardInterrupt):
-        print("Quitting..")
+        client = None
+    except Exception as e:
+        print("Error:", e)
         break
 
 # Clean-up
-server.close()
+print("Cleaning up…")
+if client is not None:
+    client.close()
+cleanup_socket()

@@ -1,8 +1,10 @@
 #!/bin/bash
 case "$BLOCK_BUTTON" in
-    1) i3-sensible-terminal -- yay
+    1) i3-sensible-terminal -- yay > /dev/null
 esac
 
 pacman -Qu | grep -v "Ignoriert" | wc -l | awk '{
-    print "<span foreground=\"#"(int($0) > 0 ? "ffff00" : "ffffff")"\">Upd: "$0"</span>"
+    print "Upd: " $0
+    print "Updates: " $0
+    print (int($0) > 0 ? "#ffff00" : "#ffffff")
 }'

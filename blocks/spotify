@@ -3,13 +3,13 @@ ARTIST="$(dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpr
 TITLE="$(dbus-send --print-reply --session --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'Metadata' 2>/dev/null | awk '/title/{getline; print}' | cut -d'"' -f2)"
 STRING="$ARTIST - $TITLE"
 
-if [ ! -z "$TITLE" ]; then
+if [ -n "$TITLE" ]; then
   echo "$STRING"
   echo "$STRING"
   echo "#1DB954"
 fi
 
-if [ $BLOCK_BUTTON -eq 1 ]; then
+if [ -n "$BLOCK_BUTTON" ] && [ $BLOCK_BUTTON -eq 1 ]; then
   dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause > /dev/null
 fi
 

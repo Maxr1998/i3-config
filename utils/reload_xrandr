@@ -1,3 +1,5 @@
 #!/bin/sh
+xrandr --output eDP-1  --dpi 110
 xrandr | grep '^DP-1 connected' && xrandr --output DP-1 --auto --left-of eDP-1 || xrandr --auto
 $HOME/.fehbg
+

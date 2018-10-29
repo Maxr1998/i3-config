@@ -24,7 +24,7 @@ bindsym Control+$mod+T exec i3-sensible-terminal
 bindsym $mod+Shift+q kill
 
 # Start dmenu (a program launcher)
-bindsym $mod+d exec --no-startup-id j4-dmenu-desktop --dmenu="dmenu -nb '#212121' -nf '#fafafa' -sb '#4285f4' -sf '#ffffff' -i"
+bindsym $mod+d exec --no-startup-id j4-dmenu-desktop --use-xdg-de --dmenu="dmenu -h 28 -nb '#212121' -nf '#fafafa' -sb '#4285f4' -sf '#ffffff' -i"
 bindsym $mod+c exec --no-startup-id i3-input -F 'exec %s'
 
 # Change focus
@@ -165,20 +165,20 @@ bar {
 
 ### SYSTEM KEYBINDINGS/ENVIRONMENT SETUP
 
+# GNOME setup
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+exec --no-startup-id nm-applet
+
+# Audio
+exec --no-startup-id /usr/bin/pulseaudio --start
+
+# Multi-monitor-setup
+bindsym Mod4+p exec --no-startup-id ~/.config/i3/utils/reload_xrandr
+exec --no-startup-id ~/.config/i3/utils/reload_xrandr
+
 # Power key/lock setup
 bindsym XF86PowerOff exec --no-startup-id ~/.config/i3/utils/lock
 bindsym Mod4+l exec --no-startup-id ~/.config/i3/utils/lock
-
-# Multi-monitor-setup
-exec --no-startup-id ~/.config/i3/reload_xrandr
-bindsym Mod4+p exec --no-startup-id ~/.config/i3/utils/reload_xrandr
-
-# GNOME setup
-exec --no-startup-id /usr/lib/gnome-settings-daemon/gsd-settings
-exec --no-startup-id nm-applet
-
-# Set wallpaper
-exec --no-startup-id ~/.fehbg
 
 # Touchpad and mouse setup
 exec_always --no-startup-id xinput set-prop "DLL075B:01 06CB:76AF Touchpad" "libinput Tapping Enabled" 1
@@ -207,4 +207,4 @@ workspace 10 output DP2
 # Start with ws 1 focused, make sure ws 10 is on DP-2
 exec --no-startup-id i3-msg workspace 10, workspace number 1
 
-for_window [class="^jetbrains-studio"][window_type=dialog] focus
+for_window [class="^jetbrains-studio"][window_type=dialog] focus # Android studio workaround

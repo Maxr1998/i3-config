@@ -170,7 +170,7 @@ exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 exec --no-startup-id nm-applet
 
 # Audio
-exec --no-startup-id /usr/bin/pulseaudio --start
+#exec --no-startup-id /usr/bin/pulseaudio --start
 
 # Multi-monitor-setup
 bindsym Mod4+p exec --no-startup-id ~/.config/i3/utils/reload_xrandr

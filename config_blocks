@@ -17,6 +17,13 @@ interval=10
 command=ip route get 8.8.8.8 | awk '{print $7; exit}'
 interval=10
 
+[bluetooth]
+command=$SCRIPT_DIR/bluetooth
+interval=10
+
+[separator]
+full_text=|
+
 [volume-pulseaudio]
 command=$SCRIPT_DIR/volume-pulseaudio
 interval=once

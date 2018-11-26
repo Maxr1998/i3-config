@@ -1,0 +1,19 @@
+#!/usr/bin/fish
+function status
+    return (bluetoothctl show | awk '/Powered: /{ exit $2 == "no"}')
+end
+
+if test "$BLOCK_BUTTON" = "1"
+    if status
+        bluetoothctl power off > /dev/null
+    else
+        bluetoothctl power on > /dev/null
+    end
+end
+
+echo -n "BT: "
+if status
+    echo "on"
+else
+    echo "off"
+end

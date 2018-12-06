@@ -101,6 +101,11 @@ bindsym $mod+Shift+8 move container to workspace number 8
 bindsym $mod+Shift+9 move container to workspace number 9
 bindsym $mod+Shift+0 move container to workspace number 10
 
+# Scratchpad
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+bindsym Mod4+a [class="Pavucontrol"] scratchpad show
+
 # Move workspace to next monitor
 bindsym $mod+Shift+h move workspace to output left
 

@@ -4,7 +4,9 @@ case "$BLOCK_BUTTON" in
 esac
 
 pacman -Qu | grep -v "Ignoriert" | wc -l | awk '{
-    print "Upd: " $0
-    print "Updates: " $0
-    print (int($0) > 0 ? "#ffff00" : "#ffffff")
+    if (int($0) > 0) {
+        print "Upd: " $0
+        print "Updates: " $0
+        print (int($0) > 0 ? "#ffff00" : "#ffffff")
+    }
 }'

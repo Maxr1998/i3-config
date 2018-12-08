@@ -34,7 +34,7 @@ full_text=|
 
 [cpu_usage]
 command=$SCRIPT_DIR/cpu_usage/cpu_usage
-label=CPU
+label=CPU 
 interval=10
 
 [cpu_clock]

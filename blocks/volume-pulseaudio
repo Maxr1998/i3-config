@@ -1,15 +1,10 @@
 #!/bin/bash
 # Displays the default device, volume, and mute status for i3blocks
 
-AUDIO_HIGH_SYMBOL=''
-
-AUDIO_MED_THRESH=50
-AUDIO_MED_SYMBOL=''
-
-AUDIO_LOW_THRESH=0
-AUDIO_LOW_SYMBOL=''
-
-AUDIO_MUTED_SYMBOL=''
+############################################################
+# Taken from vivien/i3blocks-contrib, modified by Maxr1998 #
+############################################################
+# See  https://github.com/vivien/i3blocks-contrib/blob/master/volume-pulseaudio/volume-pulseaudio
 
 AUDIO_INTERVAL=5
 
@@ -18,7 +13,6 @@ MUTED_COLOR="#a0a0a0"
 
 LONG_FORMAT=0
 SHORT_FORMAT=2
-USE_PERCENT=1
 USE_ALSA_NAME=0
 USE_DESCRIPTION=0
 
@@ -33,19 +27,18 @@ function slog {
 case "$BLOCK_BUTTON" in
     1) $VOLUME_SCRIPT -mn ;; 
     2) ;;
-    3) ;;
+    3) $SCRIPT_DIR/../utils/audio_settings > /dev/null ;;
     4) $VOLUME_SCRIPT -i 5 ;;
     5) $VOLUME_SCRIPT -d 5 ;;
 esac
 
 function print_format {
     PERCENT="%"
-    [[ $USE_PERCENT == 0 ]] && PERCENT=""
     case "$1" in
-        1) echo "$SYMBOL$VOL$PERCENT [$NAME]" ;;
-        2) echo "$SYMBOL$VOL$PERCENT [$INDEX]";;
-        3) echo "$SYMBOL$VOL$PERCENT" ;;
-        *) echo "$SYMBOL$VOL$PERCENT [$INDEX:$NAME]" ;;
+        1) echo "$VOL$PERCENT [$NAME]" ;;
+        2) echo "$VOL$PERCENT [$INDEX]";;
+        3) echo "$VOL$PERCENT" ;;
+        *) echo "$VOL$PERCENT [$INDEX:$NAME]" ;;
     esac
 }
 
@@ -79,12 +72,8 @@ sed 's/.*= "\(.*\)".*/\1/')
     fi
 
     if [[ $MUTED =~ "no" ]] ; then
-        SYMBOL=$AUDIO_HIGH_SYMBOL
-        [[ $VOL -le $AUDIO_MED_THRESH ]] && SYMBOL=$AUDIO_MED_SYMBOL
-        [[ $VOL -le $AUDIO_LOW_THRESH ]] && SYMBOL=$AUDIO_LOW_SYMBOL
         COLOR=$DEFAULT_COLOR
     else
-        SYMBOL=$AUDIO_MUTED_SYMBOL
         COLOR=$MUTED_COLOR
     fi
 

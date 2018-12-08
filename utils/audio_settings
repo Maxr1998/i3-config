@@ -1,0 +1,8 @@
+#!/usr/bin/fish
+set -l show_pavucontrol (i3-msg [class="Pavucontrol"] scratchpad show 2> /dev/null | jq .[0].success)
+if test $show_pavucontrol = "false"
+    if not pgrep pavucontrol > /dev/null
+        i3-msg exec pavucontrol
+    end
+end
+

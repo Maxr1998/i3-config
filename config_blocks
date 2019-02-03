@@ -24,6 +24,10 @@ interval=10
 [separator]
 full_text=|
 
+[keyboard]
+command=$SCRIPT_DIR/keyboard
+interval=180
+
 [volume-pulseaudio]
 command=$SCRIPT_DIR/volume-pulseaudio
 interval=once

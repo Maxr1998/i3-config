@@ -1,7 +1,7 @@
 # Maintainer: Maxr1998 <max@maxr1998.de>
 pkgname=maxr1998_i3-config
 pkgver=1.0
-pkgrel=1
+pkgrel=2
 pkgdesc="i3 related system files for Maxr1998's config"
 arch=("any")
 url="https://github.com/Maxr1998/i3-config"

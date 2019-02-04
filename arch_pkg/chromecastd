@@ -1,14 +1,31 @@
 #!/usr/bin/python3
 import os
-import time
 import socket
-import pychromecast as cast
+import time
+from pychromecast import discovery, _get_chromecast_from_host
 
-# Setup Chromecast connection
-chromecasts = cast.get_chromecasts()
-device = next(cc for cc in chromecasts if cc.device.friendly_name == "Mei")
-device.wait()
-print("Chromecasts ready")
+CC_NAME = "Mei"
+
+device = None
+
+# Callback for start_discovery.
+# Has to do quite some stuff manually because of bugs in the library.
+def cc_callback(hostname):
+    global device
+    cc_tmp = _get_chromecast_from_host(
+            cast_listener.services[hostname],
+            tries=None, retry_wait=None,
+            timeout=None,
+            blocking=True  # Important, library async is broken here
+    )
+    if cc_tmp.device.friendly_name != CC_NAME:
+        return
+    device = cc_tmp
+    print(CC_NAME, "connected.")
+
+
+# Start discovery for Chromecast
+cast_listener, browser = discovery.start_discovery(cc_callback)
 
 # Setup UNIX socket
 socket_path = "/var/run/chromecastd/daemon.sock"
@@ -28,29 +45,39 @@ server.listen(1)
 client = None
 while True:
     try:
+        # Accept new connections from socket
         (client, address) = server.accept()
-        sent = client.recv(16).decode()
-        if device.media_controller.is_active:
-            if sent == "state":
+        received = client.recv(16).decode()
+        if device is None:  # Device isn't available in network
+            client.send(b"idle")
+            client.close()
+            client = None
+            continue
+
+        device.wait()  # Make sure we have up-to-date information
+        media_ctl = device.media_controller
+        if device.socket_client.is_connected and media_ctl.is_active:
+            if received == "state":
                 pass
-            elif sent == "toggle":
-                if device.media_controller.is_playing:
-                    device.media_controller.pause()
+            elif received == "toggle":
+                if media_ctl.is_playing:
+                    media_ctl.pause()
                 else:
-                    device.media_controller.play()
-            elif sent == "play":
-                device.media_controller.play()
-            elif sent == "pause":
-                device.media_controller.pause()
-            elif sent == "volup":
+                    media_ctl.play()
+            elif received == "play":
+                media_ctl.play()
+            elif received == "pause":
+                media_ctl.pause()
+            elif received == "volup":
                 device.volume_up()
-            elif sent == "voldown":
+            elif received == "voldown":
                 device.volume_down()
             else:
                 print("Invalid argument")
 
             device.wait()
-            if device.media_controller.is_playing:
+            time.sleep(0.05)  # 50 ms
+            if media_ctl.is_playing:
                 client.send(b"playing")
             else:
                 client.send(b"paused")
@@ -64,6 +91,7 @@ while True:
 
 # Clean-up
 print("Cleaning up…")
+discovery.stop_discovery(browser)  # Stop Chromecast discovery
 if client is not None:
     client.close()
 cleanup_socket()

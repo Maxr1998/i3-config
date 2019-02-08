@@ -1,7 +1,7 @@
 # Maintainer: Maxr1998 <max@maxr1998.de>
 pkgname=maxr1998_i3-config
 pkgver=1.0
-pkgrel=2
+pkgrel=3
 pkgdesc="i3 related system files for Maxr1998's config"
 arch=("any")
 url="https://github.com/Maxr1998/i3-config"
@@ -9,10 +9,12 @@ license=('WTFPL')
 depends=("python-pychromecast-git")
 source=("chromecastd"
         "chromecastd@.service"
+        "create_backup"
         "i3lock@.service")
-md5sums=("ec90f5bc963d2cd35ccb77f4ad073b61"
-         "dd8657d2c0281fa82a78e5fb35781e43"
-         "afb04b0283eddb8b2400d53c6f493395")
+sha512sums=("78da7467ccd2524caecf3a610261e1b2e9102681178b510fc073d5448535dae9ba1de2423d9c02f8a5044dab72844cbe012aff2cae4fb9e1d85726d89f268869"
+            "9a67e903c7ad3f67b30b40b69e0fa3a71d53e539f6c093dceb1da666d9729ec891b3ba5cdc01b683e20d8702b50b357f5156823fbacb6060cb231a23eeb12a85"
+            "e8b9da16d9cfa14bd801d90e3b68822d806edaaacaad222aa743ae5643c2e4667db462f592effb9b06038e0d3873da22c4f22108302310a01cfea53c62fb16b1"
+            "ef5e4c3ed739bf44220c5e0ed96672d17c51f606ce453a83633b8d3dd040d4ac80f4466dec8cdfea9be99cae1a61ba065cda2e271faf53b261cc70761a4c0874")
 
 package() {
 	cd "$srcdir"
@@ -20,5 +22,6 @@ package() {
     mkdir -p "$pkgdir/usr/lib/systemd/system/"
     cp -f "chromecastd" "$pkgdir/usr/bin/"
     cp -f "chromecastd@.service" "$pkgdir/usr/lib/systemd/system/"
+    cp -f "create_backup" "$pkgdir/usr/bin/"
     cp -f "i3lock@.service" "$pkgdir/usr/lib/systemd/system/"
 }

@@ -24,7 +24,7 @@ bindsym Control+$mod+T exec i3-sensible-terminal
 bindsym $mod+Shift+q kill
 
 # Start dmenu (a program launcher)
-bindsym $mod+d exec --no-startup-id j4-dmenu-desktop --usage-log="$HOME/.cache/dmenu_usage.log" --use-xdg-de --dmenu="dmenu -h 28 -nb '#212121' -nf '#fafafa' -sb '#4285f4' -sf '#ffffff' -i"
+bindsym $mod+d exec --no-startup-id j4-dmenu-desktop --usage-log="$HOME/.cache/dmenu_usage.log" --use-xdg-de --no-generic --dmenu="dmenu -h 28 -nb '#212121' -nf '#fafafa' -sb '#4285f4' -sf '#ffffff' -i"
 bindsym $mod+c exec --no-startup-id i3-input -F 'exec %s'
 
 # Change focus

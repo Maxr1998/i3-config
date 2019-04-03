@@ -1,59 +1,137 @@
 #!/bin/sh
+BORG_REMOTE="iridium" # Set default remote
+BACKUP_OS=false
+
+EXCLUDE_FILE=`mktemp`
+
+EXCLUDES=(
+    'sh:**/*tmp*/'
+    'sh:**/*cache*/'
+    'sh:**/*Cache*/'
+    'sh:**/lost+found*/'
+    'sh:**/*Trash*/'
+    'sh:**/*trash*/'
+    'sh:**/.luckyBackup/'
+    'sh:**/node_modules/'
+    '*.*~'
+    '*.log'
+    '*.nobak'
+    '*.nobak.???'
+)
+
+EXCLUDES_HOME=(
+    'sh:/home/**/unpack_*/'
+    'sh:/home/*/.android/avd/'
+    'sh:/home/*/.gradle/'
+    'sh:/home/*/.local/share/lutris/runners/'
+    'sh:/home/*/.local/share/Steam/'
+    'sh:/home/*/.config/chrome-container.img'
+    'sh:/home/*/Apps/go/src/*golang.org/'
+    'sh:/home/*/Apps/go/src/github.com/'
+    'sh:/home/*/Apps/go/pkg/'
+    'sh:/home/*/Development/Android/**/.gradle/'
+    'sh:/home/*/Development/Android/**/build/'
+    'sh:/home/*/Development/sdk/system-images/'
+)
+
+EXCLUDES_OS=(
+    'sh:/@/'
+    'sh:/@home/'
+    'sh:/dev/**'
+    'sh:/home/**'
+    'sh:/media/**'
+    'sh:/mnt/**'
+    'sh:/proc/**'
+    'sh:/run/**'
+    'sh:/snapshots/'
+    'sh:/sys/'
+    'sh:/var/lib/docker/'
+    'sh:/var/log/**'
+    'sh:/var/run/**'
+)
+
+# Parse arguments
+while getopts ":r:o" opt; do
+    case $opt in
+        r)
+            BORG_REMOTE=$OPTARG
+            ;;
+        o)
+            BACKUP_OS=true
+            ;;
+        \?)
+            echo "Invalid option: -$OPTARG" >&2
+            exit 1
+            ;;
+        :)
+            echo "Option -$OPTARG requires an argument." >&2
+            exit 1
+            ;;
+  esac
+done
 
 # Setting this, so the repo does not need to be given on the commandline:
-export BORG_REPO=ssh://max@iridium/ext_backup/iridium/$(hostname)
+export BORG_REPO="ssh://max@$BORG_REMOTE/ext_backup/iridium/$(hostname)"
+export BORG_RSH="ssh -i $HOME/.ssh/id_rsa"
 
-# some helpers and error handling:
+# Some helpers and error handling:
 info() { printf "\n%s %s\n\n" "$( date )" "$*" >&2; }
 trap 'echo $( date ) Backup interrupted >&2; exit 2' INT TERM
 
 info "Starting backup"
 
 # Determine compression algorithm based on core count/system performance
-if [ $(nproc) -gt 4 ];
-then
+if [ $(nproc) -gt 4 ]; then
     compression=zstd,16
 else
     compression=lz4
 fi
 
-# Backup the most important directories into an archive named after
-# the machine this script is currently running on:
-borg create                                                                    \
-    --verbose                                                                  \
-    --filter AME                                                               \
-    --list                                                                     \
-    --stats                                                                    \
-    --show-rc                                                                  \
-    --compression $compression                                                 \
-    --nobsdflags                                                               \
-    --exclude-caches                                                           \
-    --exclude 'sh:**/*tmp*/'                                                   \
-    --exclude 'sh:**/*cache*/'                                                 \
-    --exclude 'sh:**/*Cache*/'                                                 \
-    --exclude 'sh:**/lost+found*/'                                             \
-    --exclude 'sh:**/*Trash*/'                                                 \
-    --exclude 'sh:**/*trash*/'                                                 \
-    --exclude 'sh:**/.luckyBackup/'                                            \
-    --exclude 'sh:**/node_modules/'                                            \
-    --exclude '*.nobak'                                                        \
-    --exclude '*.nobak.???'                                                    \
-    --exclude 'sh:/home/**/unpack_*/'                                          \
-    --exclude 'sh:/home/*/.android/avd/'                                       \
-    --exclude 'sh:/home/*/.gradle/'                                            \
-    --exclude 'sh:/home/*/.local/share/lutris/runners/'                        \
-    --exclude 'sh:/home/*/.local/share/Steam/'                                 \
-    --exclude 'sh:/home/*/.config/chrome-container.img'                        \
-    --exclude 'sh:/home/*/Apps/go/src/*golang.org/'                            \
-    --exclude 'sh:/home/*/Apps/go/src/github.com/'                             \
-    --exclude 'sh:/home/*/Apps/go/pkg/'                                        \
-    --exclude 'sh:/home/*/Development/Android/**/.gradle/'                     \
-    --exclude 'sh:/home/*/Development/Android/**/build/'                       \
-    --exclude 'sh:/home/*/Development/sdk/system-images/'                      \
-    ::'{hostname}-{now}'                                                       \
-    $HOME                                                                      \
+# Set up environment based on backup source
+if [ $BACKUP_OS == true ]; then
+    export BORG_REPO=${BORG_REPO}_os
+    TARGET=/
+    CUR_EXCLUDES=${EXCLUDES_OS[@]}
+else
+    TARGET=$HOME
+    CUR_EXCLUDES=${EXCLUDES_HOME[@]}
+fi
+
+# Generate exclude file
+for element in ${EXCLUDES[@]}; do
+    echo "$element" >> $EXCLUDE_FILE
+done
+
+for element in ${CUR_EXCLUDES[@]}; do
+    echo "$element" >> $EXCLUDE_FILE
+done
+
+# Parameters passed to borg
+PARAMS=(
+    create
+    --verbose
+    --filter AME
+    --list
+    --stats
+    --show-rc
+    --compression $compression
+    --nobsdflags
+    --exclude-caches
+    --exclude-from $EXCLUDE_FILE
+    "::'{hostname}-{now}'"
+    $TARGET
+)
+
+# Start backup
+if [ $BACKUP_OS == true ]; then
+    sudo BORG_REPO="$BORG_REPO" BORG_RSH="$BORG_RSH" borg ${PARAMS[@]}
+else
+    borg ${PARAMS[@]}
+fi
 
 backup_exit=$?
+
+rm $EXCLUDE_FILE
 
 info "Pruning repository"
 

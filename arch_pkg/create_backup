@@ -45,6 +45,7 @@ EXCLUDES_OS=(
     'sh:/run/**'
     'sh:/snapshots/'
     'sh:/sys/'
+    'sh:/usr/boost/'
     'sh:/var/lib/docker/'
     'sh:/var/log/**'
     'sh:/var/run/**'

@@ -120,7 +120,7 @@ PARAMS=(
     --nobsdflags
     --exclude-caches
     --exclude-from $EXCLUDE_FILE
-    "::'{hostname}-{now}'"
+    ::'{hostname}-{now}'
     $TARGET
 )
 

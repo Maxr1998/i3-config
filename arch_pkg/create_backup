@@ -70,32 +70,24 @@ while getopts ":r:o" opt; do
   esac
 done
 
-# Setting this, so the repo does not need to be given on the commandline:
-export BORG_REPO="ssh://max@$BORG_REMOTE/ext_backup/iridium/$(hostname)"
-export BORG_RSH="ssh -i $HOME/.ssh/id_rsa"
-
 # Some helpers and error handling:
 info() { printf "\n%s %s\n\n" "$( date )" "$*" >&2; }
 trap 'echo $( date ) Backup interrupted >&2; exit 2' INT TERM
 
 info "Starting backup"
 
-# Determine compression algorithm based on core count/system performance
-if [ $(nproc) -gt 4 ]; then
-    compression=zstd,16
-else
-    compression=lz4
-fi
-
 # Set up environment based on backup source
 if [ $BACKUP_OS == true ]; then
-    export BORG_REPO=${BORG_REPO}_os
+    export BORG_REPO="ssh://max@$BORG_REMOTE/ext_backup/local/$(hostname)_os"
     TARGET=/
     CUR_EXCLUDES=${EXCLUDES_OS[@]}
 else
+    export BORG_REPO="ssh://max@$BORG_REMOTE/ext_backup/iridium/$(hostname)"
     TARGET=$HOME
     CUR_EXCLUDES=${EXCLUDES_HOME[@]}
 fi
+
+export BORG_RSH="ssh -i $HOME/.ssh/id_rsa"
 
 # Generate exclude file
 for element in ${EXCLUDES[@]}; do
@@ -105,6 +97,13 @@ done
 for element in ${CUR_EXCLUDES[@]}; do
     echo "$element" >> $EXCLUDE_FILE
 done
+
+# Determine compression algorithm based on core count/system performance
+if [ $(nproc) -gt 4 ]; then
+    compression=zstd,16
+else
+    compression=lz4
+fi
 
 # Parameters passed to borg
 PARAMS=(

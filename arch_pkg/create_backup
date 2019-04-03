@@ -1,4 +1,6 @@
 #!/bin/sh
+set -f
+
 BORG_REMOTE="iridium" # Set default remote
 BACKUP_OS=false
 

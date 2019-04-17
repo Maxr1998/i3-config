@@ -206,6 +206,9 @@ bindsym XF86AudioMute exec --no-startup-id $audio mute
 bindsym XF86MonBrightnessUp exec --no-startup-id notify-send -i "weather-clear" -h string:synchronous:volume -h int:value:"$(brightnessctl set +5% | awk '/\(/{print $4}' | tr -d '(' | tr -d '%)')" "Helligkeit"
 bindsym XF86MonBrightnessDown exec --no-startup-id notify-send -i "weather-clear" -h string:synchronous:volume -h int:value:"$(brightnessctl set 5%- | awk '/\(/{print $4}' | tr -d '(' | tr -d '%)')" "Helligkeit"
 
+# Screenshot
+bindsym Control+Print exec --no-startup-id flameshot gui
+
 # Setup workspace output
 workspace 10 output DP2
 

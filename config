@@ -216,6 +216,9 @@ workspace 10 output DP2
 exec --no-startup-id i3-msg workspace 10, workspace number 1
 
 # Window rules
+floating_minimum_size 360 x 200
+floating_maximum_size 1800 x 1000
+
 for_window [class="Pavucontrol"] floating enable
 for_window [class="Pavucontrol"] resize set 1280 800
 for_window [class="^jetbrains-studio"][window_type=dialog] focus # Android studio workaround

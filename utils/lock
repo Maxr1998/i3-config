@@ -14,8 +14,12 @@ xset dpms 0 0 10
 W="ffffff00"
 B="00000000"
 
-i3lock -n --indicator --indpos="x+w/2:y+h*703/1000" -i "$HOME/Bilder/Wallpapers/Lockscreen.png" --timecolor=$W --verifcolor=$W --wrongcolor=$W --separatorcolor=$W --insidecolor=$B \
-    --ringcolor="ffffffa0" --linecolor=$W --keyhlcolor="fffffffa" --ringvercolor="ffc107ff" --insidevercolor="ffc10748" --ringwrongcolor="d32f2fff" --insidewrongcolor="d32d2f48"
+i3lock -n -t --indicator --indpos="x+w/2:y+h*703/1000" \
+    -i "$HOME/Bilder/Wallpapers/Lockscreen.png" \
+    --timecolor=$W --ringcolor="ffffffa0" --insidecolor=$B --linecolor=$W \
+    --verifcolor=$W --ringvercolor="ffc107ff" --insidevercolor="ffc10748" \
+    --wrongcolor=$W --ringwrongcolor="d32f2fff" --insidewrongcolor="d32d2f48" \
+    --separatorcolor=$W --keyhlcolor="fffffffa"
 
 echo "Screen unlocked"
 

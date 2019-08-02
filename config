@@ -174,6 +174,9 @@ bar {
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 exec --no-startup-id nm-applet
 
+# Start KDE Connnect
+exec --no-startup-id /usr/lib/kdeconnectd
+
 # Audio
 #exec --no-startup-id /usr/bin/pulseaudio --start
 
@@ -201,6 +204,8 @@ set $audio ~/.config/i3/utils/audio
 bindsym XF86AudioRaiseVolume exec --no-startup-id $audio raise
 bindsym XF86AudioLowerVolume exec --no-startup-id $audio lower
 bindsym XF86AudioMute exec --no-startup-id $audio mute
+
+bindsym XF86AudioPlay exec playerctl play
 
 # Brightness
 bindsym XF86MonBrightnessUp exec --no-startup-id notify-send -i "weather-clear" -h string:synchronous:volume -h int:value:"$(brightnessctl set +5% | awk '/\(/{print $4}' | tr -d '(' | tr -d '%)')" "Helligkeit"

@@ -2,6 +2,7 @@
 set -f
 
 BORG_REMOTE="iridium" # Set default remote
+SSH_PORT=22           # Set default port
 BACKUP_OS=false
 
 EXCLUDE_FILE=`mktemp`
@@ -54,10 +55,13 @@ EXCLUDES_OS=(
 )
 
 # Parse arguments
-while getopts ":r:o" opt; do
+while getopts ":r:p:o" opt; do
     case $opt in
         r)
             BORG_REMOTE=$OPTARG
+            ;;
+        p)
+            SSH_PORT=$OPTARG
             ;;
         o)
             BACKUP_OS=true
@@ -90,7 +94,7 @@ else
     CUR_EXCLUDES=${EXCLUDES_HOME[@]}
 fi
 
-export BORG_RSH="ssh -i $HOME/.ssh/id_rsa"
+export BORG_RSH="ssh -i $HOME/.ssh/id_rsa -p $SSH_PORT"
 
 # Generate exclude file
 for element in ${EXCLUDES[@]}; do

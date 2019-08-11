@@ -85,11 +85,11 @@ info "Starting backup"
 
 # Set up environment based on backup source
 if [ $BACKUP_OS == true ]; then
-    export BORG_REPO="ssh://max@$BORG_REMOTE/ext_backup/local/$(hostname)_os"
+    export BORG_REPO="ssh://$BORG_REMOTE/ext_backup/local/$(hostname)_os"
     TARGET=/
     CUR_EXCLUDES=${EXCLUDES_OS[@]}
 else
-    export BORG_REPO="ssh://max@$BORG_REMOTE/ext_backup/iridium/$(hostname)"
+    export BORG_REPO="ssh://$BORG_REMOTE/ext_backup/current/$(hostname)"
     TARGET=$HOME
     CUR_EXCLUDES=${EXCLUDES_HOME[@]}
 fi

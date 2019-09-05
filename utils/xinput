@@ -1,0 +1,14 @@
+#!/bin/sh
+# Mouse
+xinput set-prop "pointer:Logitech Unifying Device. Wireless PID:404a" "libinput Left Handed Enabled" "1"
+xinput set-prop "pointer:MX Anywhere 2 Mouse" "libinput Left Handed Enabled" 1
+xinput set-prop "pointer:Logitech MX Anywhere 2" "libinput Left Handed Enabled" 1
+
+# Touchpad
+xinput set-prop "DLL075B:01 06CB:76AF Touchpad" "libinput Tapping Enabled" 1
+xinput set-prop "DLL075B:01 06CB:76AF Touchpad" "libinput Natural Scrolling Enabled" 1
+xinput set-prop "DLL075B:01 06CB:76AF Touchpad" "libinput Left Handed Enabled" 1
+
+# Keyboard
+setxkbmap -layout de -variant nodeadkeys -option 'grp:win_space_toggle'
+

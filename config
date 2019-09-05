@@ -188,16 +188,8 @@ exec --no-startup-id ~/.config/i3/utils/reload_xrandr
 bindsym XF86PowerOff exec --no-startup-id ~/.config/i3/utils/lock
 bindsym Mod4+l exec --no-startup-id ~/.config/i3/utils/lock
 
-# Touchpad and mouse setup
-exec_always --no-startup-id xinput set-prop "DLL075B:01 06CB:76AF Touchpad" "libinput Tapping Enabled" 1
-exec_always --no-startup-id xinput set-prop "DLL075B:01 06CB:76AF Touchpad" "libinput Natural Scrolling Enabled" 1
-exec_always --no-startup-id xinput set-prop "DLL075B:01 06CB:76AF Touchpad" "libinput Left Handed Enabled" 1
-exec_always --no-startup-id xinput set-prop "pointer:MX Anywhere 2 Mouse" "libinput Left Handed Enabled" 1
-exec_always --no-startup-id xinput set-prop "pointer:Logitech MX Anywhere 2" "libinput Left Handed Enabled" 1
-
 # Keyboard layout setup
-#exec_always --no-startup-id "setxkbmap -layout de,us -variant nodeadkeys,euro -option 'grp:win_space_toggle'"
-exec_always --no-startup-id "setxkbmap -layout de -variant nodeadkeys -option 'grp:win_space_toggle'"
+exec_always --no-startup-id ~/.config/i3/utils/xinput
 
 # Media keys
 set $audio ~/.config/i3/utils/audio

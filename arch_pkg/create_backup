@@ -94,7 +94,7 @@ else
     CUR_EXCLUDES=${EXCLUDES_HOME[@]}
 fi
 
-export BORG_RSH="ssh -i $HOME/.ssh/id_rsa -p $SSH_PORT"
+export BORG_RSH="ssh -i $HOME/.ssh/id_rsa -F $HOME/.ssh/config -p $SSH_PORT"
 
 # Generate exclude file
 for element in ${EXCLUDES[@]}; do

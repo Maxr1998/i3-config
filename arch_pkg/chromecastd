@@ -4,7 +4,7 @@ import socket
 import time
 from pychromecast import discovery, _get_chromecast_from_host
 
-CC_NAME = "Mei"
+CC_NAMES = ["Mei", "Madeline"]
 
 device = None
 
@@ -18,10 +18,17 @@ def cc_callback(hostname):
             timeout=None,
             blocking=True  # Important, library async is broken here
     )
-    if cc_tmp.device.friendly_name != CC_NAME:
+
+    try:
+        pos = CC_NAMES.index(cc_tmp.device.friendly_name)
+    except ValueError:
         return
+
+    if device is not None and pos > CC_NAMES.index(device.device.friendly_name):
+        return
+
     device = cc_tmp
-    print(CC_NAME, "connected.")
+    print(cc_tmp.device.friendly_name, "connected.")
 
 
 # Start discovery for Chromecast

@@ -1,36 +1,31 @@
-interval=5
+interval=10
 color=#ffffff
 
 [spotify]
 command=$SCRIPT_DIR/spotify
-interval=10
 
 [chromecast]
 command=$SCRIPT_DIR/chromecast
-interval=10
 
 [wifi]
 command=$SCRIPT_DIR/wifi
-interval=10
 
 [ip]
 command=ip route get 8.8.8.8 | awk '{print $7; exit}'
-interval=10
 
 [bluetooth]
 command=$SCRIPT_DIR/bluetooth
-interval=10
 
 [separator]
 full_text=|
 
 [keyboard]
 command=$SCRIPT_DIR/keyboard
-interval=180
+interval=300
 
 [volume-pulseaudio]
 command=$SCRIPT_DIR/volume-pulseaudio
-interval=once
+interval=60
 signal=1
 
 [separator]
@@ -39,15 +34,14 @@ full_text=|
 [cpu_usage]
 command=$SCRIPT_DIR/cpu_usage/cpu_usage
 label=CPU 
-interval=10
+interval=3
 
 [cpu_clock]
 command=$SCRIPT_DIR/cpu_clock
-interval=10
+interval=3
 
 [cpu_temp]
 command=$SCRIPT_DIR/cpu_temperature
-interval=10
 
 [separator]
 full_text=|
@@ -58,9 +52,10 @@ markup=pango
 
 [datetime]
 command=date "+%d.%m.%Y, %T"
+interval=1
 
 [pacman]
 command=$SCRIPT_DIR/pacman
-interval=60
+interval=120
 signal=12
 

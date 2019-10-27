@@ -1,2 +1,3 @@
 #!/bin/bash
 sensors | awk '/CPU Temp/{ print $3 }' | tr -d +
+sensors | awk '/Tdie/{ print $2 }' | tr -d +

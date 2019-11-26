@@ -118,6 +118,7 @@ PARAMS=(
     --verbose
     --filter AME
     --list
+    --progress
     --stats
     --show-rc
     --compression $compression
